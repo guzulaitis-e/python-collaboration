@@ -1,0 +1,58 @@
+class Parent:
+import pygame
+
+pygame.init()
+
+SCREEN_WIDTH=800 #window dimensions
+SCREEN_HEIGHT=600
+
+screen=pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT)) #to create the window
+
+class StartGame:
+    def __init__(self):
+        self.running, self.playing=True, False #to create the game loop
+        self.UP_KEY, self.DOWN_KEY, self.START_KEY, self.BACK_KEY=False, False, False, False #to create the key press variables
+        self.DISPLAY_W, self.DISPLAY_H=SCREEN_WIDTH, SCREEN_HEIGHT
+        self.display=pygame.Surface((self.DISPLAY_W, self.DISPLAY_H)) #to create the display surface
+        self.font_name=pygame.font.get_default_font() #to create the font
+        self.BLACK, self.WHITE= (0, 0, 0), (255, 255, 255) #to create the colour variables
+        self.main_menu=MainMenu(self) #to create the main menu
+        self.options=OptionsMenu(self) #to create the options menu
+        self.curr_menu=self.main_menu #to create the current menu
+
+class GameDirections:
+    def __init__(self, game):
+        self.game = game
+        self.instructions = ["Welcome! Guide the player through each class by playing mini games. If he gets home, you win!"]
+
+    def display_directions(self):
+     self.game.display.fill(self.game.BLACK)
+        for i, line in enumerate(self.instructions):
+         directions_text = self.game.font_name.render(line, True,     self.game.WHITE)
+         self.game.display.blit(directions_text, (20, 20 + i * 40))
+     pygame.display.update()
+
+class Lunchroom:
+
+player= pygame.Rect((300, 250, 50, 50))
+
+run=True
+
+while run: 
+    screen.fill((0,0,0)) #to get rid of the trail left by the rectangle after its moved
+    pygame.draw.rect(screen,(255,0,0), player)
+    key=pygame.key.get_pressed() #to see what key is being pressed
+    if key[pygame.K_s]==True: #if the player pressed a
+        player.move_ip(0,-1)#to move the red rectangle, values in bracket represent change in x and y coordinates
+    #elif key[pygame.K_d]==True: #if the player pressed a
+      #  player.move_ip(1,0)
+    #elif key[pygame.K_s]==True: #if the player pressed a
+        #player.move_ip(0,-1)
+    elif key[pygame.K_w]==True: #if the player pressed a
+        player.move_ip(0,1)
+
+    for event in pygame.event.get():#loop to quit the game
+        if event.type == pygame.QUIT:
+            run=False
+    pygame.display.update()        #to actually show the rectangle
+pygame.quit()
